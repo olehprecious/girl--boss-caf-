@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Girl Boss Hub</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #fff7fa;
+  color: #402b35;
+}
+
+header {
+  background: #f8dce8;
+  padding: 25px 20px;
+  text-align: center;
+}
+
+header h1 {
+  color: #a83f70;
+  font-size: 27px;
+}
+
+header p {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.container {
+  padding: 22px;
+  max-width: 750px;
+  margin: auto;
+}
+
+.welcome {
+  margin-bottom: 25px;
+}
+
+.welcome h2 {
+  font-size: 23px;
+  margin-bottom: 8px;
+}
+
+.welcome p {
+  color: #866b78;
+  font-size: 14px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 3px 12px #eacbd8;
+}
+
+.card h3 {
+  color: #a83f70;
+  margin-bottom: 10px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.stat {
+  background: #fce8f0;
+  padding: 18px;
+  border-radius: 14px;
+}
+
+.stat p {
+  font-size: 12px;
+  color: #866b78;
+}
+
+.stat h2 {
+  margin-top: 8px;
+  font-size: 20px;
+}
+
+button {
+  background: #b84d7d;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  padding: 12px 17px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+button:hover {
+  background: #96365f;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 7px 0;
+  border: 1px solid #e8c5d5;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.section {
+  margin-top: 25px;
+}
+
+.product {
+  background: #fff0f5;
+  padding: 14px;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #a17d8d;
+  font-size: 12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>♡ GIRL BOSS HUB</h1>
+  <p>Your business. Your money. Your empire.</p>
+</header>
+
+<div class="container">
+
+  <div class="welcome">
+    <h2>Welcome, Boss Lady! 💗</h2>
+    <p>Let's grow your business one step at a time.</p>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <p>Total Sales</p>
+      <h2 id="sales">₦0</h2>
+    </div>
+
+    <div class="stat">
+      <p>Total Expenses</p>
+      <h2 id="expenses">₦0</h2>
+    </div>
+
+    <div class="stat">
+      <p>Net Profit</p>
+      <h2 id="profit">₦0</h2>
+    </div>
+
+    <div class="stat">
+      <p>Products</p>
+      <h2 id="productCount">0</h2>
+    </div>
+
+  </div>
+
+  <div class="section card">
+    <h3>🏪 My Business</h3>
+    <input id="businessName" placeholder="Enter your business name">
+    <textarea id="businessDescription" placeholder="Tell customers about your business"></textarea>
+    <button onclick="saveBusiness()">Save Business</button>
+    <p id="businessMessage"></p>
+  </div>
+
+  <div class="section card">
+    <h3>🛍️ Add a Product</h3>
+    <input id="productName" placeholder="Product name">
+    <input id="productPrice" type="number" placeholder="Price (₦)">
+    <button onclick="addProduct()">Add Product</button>
+    <div id="productList"></div>
+  </div>
+
+  <div class="section card">
+    <h3>💰 Record a Sale</h3>
+    <input id="saleAmount" type="number" placeholder="Sale amount (₦)">
+    <button onclick="addSale()">Record Sale</button>
+  </div>
+
+  <div class="section card">
+    <h3>🧾 Record an Expense</h3>
+    <input id="expenseAmount" type="number" placeholder="Expense amount (₦)">
+    <input id="expenseDescription" placeholder="What did you spend on?">
+    <button onclick="addExpense()">Record Expense</button>
+  </div>
+
+</div>
+
+<footer>
+  Made with ♡ for ambitious women.<br>
+  GIRL BOSS HUB © 2026
+</footer>
+
+<script>
+
+let sales = 0;
+let expenses = 0;
+let products = [];
+
+function updateDashboard() {
+  document.getElementById("sales").innerText =
+    "₦" + sales.toLocaleString();
+
+  document.getElementById("expenses").innerText =
+    "₦" + expenses.toLocaleString();
+
+  document.getElementById("profit").innerText =
+    "₦" + (sales - expenses).toLocaleString();
+
+  document.getElementById("productCount").innerText =
+    products.length;
+}
+
+function saveBusiness() {
+  let name = document.getElementById("businessName").value;
+
+  if (!name.trim()) {
+    alert("Please enter your business name.");
+    return;
+  }
+
+  document.getElementById("businessMessage").innerText =
+    "Your business profile has been saved for this demo! 💗";
+}
+
+function addProduct() {
+  let name = document.getElementById("productName").value;
+  let price = Number(document.getElementById("productPrice").value);
+
+  if (!name.trim() || price <= 0) {
+    alert("Enter a product name and valid price.");
+    return;
+  }
+
+  products.push({name, price});
+
+  document.getElementById("productList").innerHTML +=
+    `<div class="product">
+      <strong>${name.replace(/</g, "&lt;")}</strong>
+      <p>₦${price.toLocaleString()}</p>
+    </div>`;
+
+  document.getElementById("productName").value = "";
+  document.getElementById("productPrice").value = "";
+
+  updateDashboard();
+}
+
+function addSale() {
+  let amount = Number(document.getElementById("saleAmount").value);
+
+  if (amount <= 0) {
+    alert("Enter a valid sale amount.");
+    return;
+  }
+
+  sales += amount;
+  document.getElementById("saleAmount").value = "";
+  updateDashboard();
+}
+
+function addExpense() {
+  let amount = Number(document.getElementById("expenseAmount").value);
+
+  if (amount <= 0) {
+    alert("Enter a valid expense amount.");
+    return;
+  }
+
+  expenses += amount;
+  document.getElementById("expenseAmount").value = "";
+  updateDashboard();
+}
+
+</script>
+
+</body>
+</html>
